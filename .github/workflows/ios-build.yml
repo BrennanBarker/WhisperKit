@@ -18,6 +18,9 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: List the working dir
+        run: ls
+
       - name: Archive the app
         run: |
           xcodebuild \
