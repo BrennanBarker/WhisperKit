@@ -40,6 +40,7 @@ jobs:
             -exportPath ./build \
             -exportOptionsPlist WhisperAX.xcodeproj/project.xcworkspace/ExportOptions.plist
 
+      # Step 6: Upload the IPA artifact
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v3
         with:
