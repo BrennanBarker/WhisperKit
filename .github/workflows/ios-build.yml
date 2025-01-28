@@ -24,14 +24,4 @@ jobs:
               -scheme WhisperAX \
               -sdk iphonesimulator \
               -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0' \
-              archive -archivePath ./build/WhisperAX.xcarchive \
-              -exportArchive
-              -exportPath ./build \
-              -exportOptionsPlist WhisperAX.xcodeproj/project.xcworkspace/ExportOptions.plist
 
-      # Step 6: Upload the IPA artifact
-      - name: Upload IPA artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: WhisperAX-ipa
-          path: ./build/*.ipa
