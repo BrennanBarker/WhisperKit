@@ -19,5 +19,5 @@ jobs:
           xcode-version: latest-stable
 
       - name: Archive the app
-        run: xcodebuild -workspace Examples/WhisperAX.xcodeproj/project.xcworkspace -scheme WhisperAX -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0' \
+        run: xcodebuild -workspace WhisperKit/WhisperAX.xcodeproj/project.xcworkspace -scheme WhisperAX -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0' \
 
