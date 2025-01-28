@@ -3,54 +3,35 @@ name: iOS Build
 on:
   push:
     branches:
-      - whisperax
+      - whistperax
 
 jobs:
   build:
     runs-on: macos-latest
 
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Xcode
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 14
 
-      # Step 3: Install dependencies (if using CocoaPods or SPM)
       - name: Resolve dependencies
         run: |
           cd WhisperAX.xcodeproj/project.xcworkspace
           pod install || echo "No CocoaPods dependencies to install"
 
-      # Step 4: Decode and install the signing certificate
-      - name: Decode and install certificate
-        run: |
-          echo "$CERTIFICATE" | base64 --decode > certificate.p12
-          security create-keychain -p "" build.keychain
-          security import certificate.p12 -k build.keychain -P "" -T /usr/bin/codesign
-
-      # Step 5: Decode and install provisioning profile
-      - name: Decode and install provisioning profile
-        run: |
-          echo "$PROVISIONING_PROFILE" | base64 --decode > provisioning-profile.mobileprovision
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          mv provisioning-profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
-
-      # Step 6: Archive the app for real iOS devices
-      - name: Archive the app for iOS
+      - name: Archive the app
         run: |
           xcodebuild \
             -workspace WhisperAX.xcodeproj/project.xcworkspace \
             -scheme WhisperAX \
-            -sdk iphoneos \
-            -destination 'platform=iOS,name=iPhone 14,OS=16.0' \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0' \
             archive -archivePath ./build/WhisperAX.xcarchive
 
-      # Step 7: Export the IPA
       - name: Export IPA
         run: |
           xcodebuild \
@@ -59,7 +40,6 @@ jobs:
             -exportPath ./build \
             -exportOptionsPlist WhisperAX.xcodeproj/project.xcworkspace/ExportOptions.plist
 
-      # Step 8: Upload IPA artifact
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v3
         with:
